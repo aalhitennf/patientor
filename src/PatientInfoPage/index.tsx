@@ -5,7 +5,7 @@ import { apiBaseUrl } from "../constants";
 
 import { Patient } from '../types';
 
-import { useStateValue } from "../state";
+import { updatePatient, useStateValue } from "../state";
 
 const PatientInfoPage: React.FC = () => {
 
@@ -18,11 +18,11 @@ const PatientInfoPage: React.FC = () => {
 
       if (!patients[id] || !patients[id].ssn) {
         try {
-          const patientFromApi = await axios.get<Patient>(`${apiBaseUrl}/patients/${id}`);
+          const { data: patientFromApi } = await axios.get<Patient>(`${apiBaseUrl}/patients/${id}`);
           if (!patientFromApi) {
             return (<div>no patient with this id</div>);
           }
-          dispatch({ type: "UPDATE_PATIENT", payload: patientFromApi.data });
+          dispatch(updatePatient(patientFromApi));
         } catch (e) {
           const err = e as Error;
           return (<div>error: ${err.message}</div>);
@@ -30,7 +30,7 @@ const PatientInfoPage: React.FC = () => {
       }
     };
     fetchPatient();
-  }, [dispatch]);
+  }, [dispatch, id, patients]);
 
   if (!patients[id]) {
     return (
