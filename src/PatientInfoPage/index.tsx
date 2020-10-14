@@ -19,20 +19,21 @@ const PatientInfoPage: React.FC = () => {
 
     const fetchPatient = async () => {
 
-      if (!patients[id] || !patients[id].ssn) {
-        try {
-          const { data: patientFromApi } = await axios.get<Patient>(`${apiBaseUrl}/patients/${id}`);
-          if (!patientFromApi) {
-            return (<div>no patient with this id</div>);
-          }
-          dispatch(updatePatient(patientFromApi));
-        } catch (e) {
-          const err = e as Error;
-          return (<div>error: ${err.message}</div>);
+      try {
+        const { data: patientFromApi } = await axios.get<Patient>(`${apiBaseUrl}/patients/${id}`);
+        if (!patientFromApi) {
+          return (<div>no patient with this id</div>);
         }
+        dispatch(updatePatient(patientFromApi));
+      } catch (e) {
+        const err = e as Error;
+        return (<div>error: ${err.message}</div>);
       }
     };
-    fetchPatient();
+
+    if (!patients[id] || !patients[id].ssn) {
+      fetchPatient();
+    }
   }, [dispatch, id, patients]);
 
   if (!patients[id] || !patients[id].entries) {
