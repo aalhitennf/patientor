@@ -1,11 +1,14 @@
 import React from "react";
 import axios from "axios";
 import { useParams } from 'react-router-dom';
+
 import { apiBaseUrl } from "../constants";
-
 import { Patient } from '../types';
-
 import { updatePatient, useStateValue } from "../state";
+
+import { Divider } from 'semantic-ui-react';
+
+import EntryList from "./EntryList";
 
 const PatientInfoPage: React.FC = () => {
 
@@ -32,9 +35,9 @@ const PatientInfoPage: React.FC = () => {
     fetchPatient();
   }, [dispatch, id, patients]);
 
-  if (!patients[id]) {
+  if (!patients[id] || !patients[id].entries) {
     return (
-      <div>error</div>
+      <div>fetching data</div>
     );
   }
 
@@ -43,6 +46,8 @@ const PatientInfoPage: React.FC = () => {
       <h3>{patients[id].name}, {patients[id].gender}</h3>
       <div>ssn: {patients[id].ssn}</div>
       <div>occupation: {patients[id].occupation}</div>
+      <Divider hidden />
+      <EntryList entries={patients[id].entries} />
     </div>
   );
 };
