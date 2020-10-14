@@ -6,9 +6,22 @@ import { apiBaseUrl } from "../constants";
 import { Patient } from '../types';
 import { updatePatient, useStateValue } from "../state";
 
-import { Divider } from 'semantic-ui-react';
+import { Divider, Icon } from 'semantic-ui-react';
 
 import EntryList from "./EntryList";
+
+const genderString = (gender: string): 'mars' | 'venus' | 'venus mars' | 'genderless' => {
+  switch (gender) {
+    case 'male':
+      return 'mars';
+    case 'female':
+      return 'venus';
+    case 'other':
+      return 'venus mars';
+    default:
+      return 'genderless';
+  }
+};
 
 const PatientInfoPage: React.FC = () => {
 
@@ -44,7 +57,7 @@ const PatientInfoPage: React.FC = () => {
 
   return (
     <div>
-      <h3>{patients[id].name}, {patients[id].gender}</h3>
+      <h3>{patients[id].name}, <Icon name={genderString(patients[id].gender)} /></h3>
       <div>ssn: {patients[id].ssn}</div>
       <div>occupation: {patients[id].occupation}</div>
       <Divider hidden />

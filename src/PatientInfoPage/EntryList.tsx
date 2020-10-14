@@ -4,6 +4,10 @@ import { Entry, Diagnose } from "../types";
 import { apiBaseUrl } from "../constants";
 import { useStateValue, setDiagnoseList } from "../state";
 
+import HospitalEntry from "./HospitalEntry";
+import HealthCheckEntry from "./HealthCheckEntry";
+import OccupationalHealthcare from "./OccupationalHealthcareEntry";
+
 const EntryList: React.FC<{ entries: Entry[] }> = ({ entries }) => {
 
   const [ { diagnoses }, dispatch] = useStateValue();
@@ -31,25 +35,29 @@ const EntryList: React.FC<{ entries: Entry[] }> = ({ entries }) => {
   if (!entries || entries.length === 0) {
     return (
       <div>
-        <h3>no entries</h3>
+        <h3>No entries</h3>
       </div>
     );
   }
 
+  const EntryDetails: React.FC<{ entry: Entry }> = ({ entry }) => {
+    switch (entry.type) {
+      case "Hospital":
+        return <HospitalEntry entry={entry} />;
+      case "HealthCheck":
+        return <HealthCheckEntry entry={entry} />;
+      case "OccupationalHealthcare":
+        return <OccupationalHealthcare entry={entry} />;
+      default:
+        return (<div>unknown entry</div>);
+    }
+  };
+
   return (
     <div>
-    <h3>entries</h3>
+    <h3>Entries</h3>
     {entries.map(e => (
-        <div key={e.id}>
-          {e.date} <i>{e.description}</i>
-          <ul>
-            {e.diagnosisCodes?.map(c =>
-              <li key={c}>
-                <b>{c}</b> {(diagnoses[c]) ? diagnoses[c].name : <p>fetching data</p>}
-              </li>
-            )}
-          </ul>
-        </div>
+      <EntryDetails key={e.id} entry={e} />
     ))}
     </div>
   );
