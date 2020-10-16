@@ -56,7 +56,7 @@ const EntryList: React.FC<{ entries: Entry[] }> = ({ entries }) => {
   return (
     <div>
     <h3>Entries</h3>
-    {entries.map(e => (
+    {entries.reverse().map(e => (
       <EntryDetails key={e.id} entry={e} />
     ))}
     </div>

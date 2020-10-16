@@ -2,6 +2,8 @@ import React from "react";
 import { HospitalEntry } from "../types";
 import { Segment, Icon, Divider } from 'semantic-ui-react';
 
+import DiagnosisList from './DiagnosisList';
+
 const HospitalEntryItem: React.FC<{ entry: HospitalEntry }> = ({ entry }) => {
   return (
     <Segment>
@@ -11,6 +13,7 @@ const HospitalEntryItem: React.FC<{ entry: HospitalEntry }> = ({ entry }) => {
       <div style={{ padding: '10px' }}>
         <i>{entry.description}</i>
       </div>
+      <DiagnosisList entry={entry} />
       <Divider hidden />
       <div>
         <div>

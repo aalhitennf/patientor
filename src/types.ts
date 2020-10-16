@@ -20,6 +20,8 @@ export interface Patient {
   entries: Entry[];
 }
 
+export type NewPatient = Omit<Patient, 'id'>;
+
 export interface Diagnose {
   code: string;
   name: string;
