@@ -12,6 +12,8 @@ import { Divider, Icon, Button } from 'semantic-ui-react';
 import EntryList from './EntryList';
 import AddEntryModal from '../AddEntryModal';
 
+const ENTRY_ERROR_TIMEOUT = 10000;
+
 const genderString = (gender: string): 'mars' | 'venus' | 'venus mars' | 'genderless' => {
   switch (gender) {
     case 'male':
@@ -62,6 +64,12 @@ const PatientInfoPage: React.FC = () => {
     setModalOpen(false);
   };
 
+  const startTimer = (): void => {
+    setTimeout(() => {
+      setError(undefined);
+    }, ENTRY_ERROR_TIMEOUT);
+  };
+
   const addEntry = async (values: EntryFormValues) => {
     try {
       const { data: response } = await axios.post<EntryFormValues>(
@@ -76,8 +84,8 @@ const PatientInfoPage: React.FC = () => {
       dispatch(updatePatient(updatedPatient));
       closeModal();
     } catch (e) {
-      console.error(e.response.data);
-      setError(e.response.data.error);
+      setError(e.response.data);
+      startTimer();
     }
   };
 
