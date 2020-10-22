@@ -2,28 +2,53 @@ import React from 'react';
 import { Button, Grid, Divider } from 'semantic-ui-react';
 import { Field, Formik, Form } from "formik";
 
-import { Diagnose, HealthCheckEntry } from '../types';
+import { Diagnose, HealthCheckEntry, HospitalEntry, OccupationalHealthcareEntry, BaseEntry } from '../types';
 
 import { TextField, DiagnosisSelection } from '../AddPatientModal/FormField';
-import { HealthCheckFields } from './EntryFormFields';
+import {
+  HealthCheckFields, HospitalFields, OccupationalFields,
+  EntryTypeSelection, EntryOption
+} from './EntryFormFields';
 
-export type EntryFormHealthCheckValues = Omit<HealthCheckEntry, 'id'>;
+type EntryFormBaseValues = Omit<BaseEntry, 'id'>;
+type EntryFormHealthCheckValues = Omit<HealthCheckEntry, 'id'>;
+type EntryFormHospitalValues = Omit<HospitalEntry, 'id'>;
+type EntryFormOccupationalValues = Omit<OccupationalHealthcareEntry, 'id'>;
 
-export type EntryFormValues = 
-  | EntryFormHealthCheckValues;
+export type EntryFormValues =
+  | EntryFormBaseValues
+  | EntryFormHealthCheckValues
+  | EntryFormHospitalValues
+  | EntryFormOccupationalValues;
 
 interface Props {
-  onSubmit: (values: EntryFormHealthCheckValues) => void;
+  onSubmit: (values: EntryFormValues) => void;
   onCancel: () => void;
   diagnoses: { [code: string]: Diagnose };
 }
 
+const entryOptions: EntryOption[]  = [
+  {
+    label: 'Health check',
+    value: 'HealthCheck'
+  },
+  {
+    label: 'Hospital',
+    value: 'Hospital'
+  },
+  // {
+  //   label: 'Occupational healthcare',
+  //   value: 'OccupationalHealthcare'
+  // }
+];
+
 const AddEntryModal: React.FC<Props> = ({ onSubmit, onCancel, diagnoses }) => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [formType, setFormType] = React.useState<string>('HealthCheck');
+  const [formType, setFormType] = React.useState<string>();
 
   const initialValues = {
+    type: '',
     description: '',
     date: '',
     specialist: '',
@@ -35,6 +60,14 @@ const AddEntryModal: React.FC<Props> = ({ onSubmit, onCancel, diagnoses }) => {
     healthCheckRating: 0
   };
 
+  const hospitalValues = {
+    type: 'Hospital',
+    discharge: {
+      date: '',
+      criteria: ''
+    }
+  };
+
   const selectedInitialValues = (): EntryFormValues => {
     switch(formType) {
       case 'HealthCheck':
@@ -42,19 +75,26 @@ const AddEntryModal: React.FC<Props> = ({ onSubmit, onCancel, diagnoses }) => {
           ...initialValues,
           ...healthCheckValues,
         } as EntryFormHealthCheckValues;
-      default:
+      case 'Hospital':
         return {
           ...initialValues,
-          ...healthCheckValues
-        } as EntryFormHealthCheckValues;
+          ...hospitalValues,
+        } as EntryFormHospitalValues;
+      default:
+        return initialValues as EntryFormBaseValues;
     }
   };
 
   const selectedTypeFormFields = () => {
-    if (formType === 'HealthCheck') {
-      return (
-        <HealthCheckFields />
-      );
+    switch (formType) {
+      case 'HealthCheck':
+        return (<HealthCheckFields />);
+      case 'Hospital':
+        return (<HospitalFields />);
+      case 'OccupationalHealthcare':
+        return (<OccupationalFields />);
+      default:
+        return '';
     }
   };
 
@@ -65,6 +105,9 @@ const AddEntryModal: React.FC<Props> = ({ onSubmit, onCancel, diagnoses }) => {
       validate={values => {
         const requiredError = 'Field is required';
         const errors: { [field: string]: string } = {};
+        if (!values.type) {
+          errors.type = requiredError;
+        }
         if (!values.description) {
           errors.description = requiredError;
         }
@@ -80,6 +123,12 @@ const AddEntryModal: React.FC<Props> = ({ onSubmit, onCancel, diagnoses }) => {
       {({ isValid, dirty, setFieldValue, setFieldTouched }) => {
         return (
           <Form className='form ui'>
+            <EntryTypeSelection
+              options={entryOptions}
+              placeholder='Select entry type'
+              setFieldValue={setFieldValue}
+              handleChange={(value: string) => setFormType(value)}
+            />
             <Field 
               label='Description'
               placeholder='Description'

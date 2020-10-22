@@ -30,7 +30,7 @@ const EntryList: React.FC<{ entries: Entry[] }> = ({ entries }) => {
       fetchDiagnoses();
     }
 
-  }, [dispatch]);
+  }, [dispatch, diagnoses]);
 
   if (!entries || entries.length === 0) {
     return (

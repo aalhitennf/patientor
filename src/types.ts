@@ -30,6 +30,7 @@ export interface Diagnose {
 
 export interface BaseEntry {
   id: string;
+  type: string;
   description: string;
   date: string;
   specialist: string;
@@ -69,7 +70,7 @@ export interface OccupationalHealthcareEntry extends BaseEntry {
   sickLeave?: SickLeave;
 }
 
-export type Entry = 
+export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry
   | HealthCheckEntry;
