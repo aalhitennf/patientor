@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Grid, Divider } from 'semantic-ui-react';
-import { Field, Formik, Form } from "formik";
+import { Field, Formik, Form } from 'formik';
 
 import { Diagnose, HealthCheckEntry, HospitalEntry, OccupationalHealthcareEntry, BaseEntry } from '../types';
 
@@ -36,15 +36,14 @@ const entryOptions: EntryOption[]  = [
     label: 'Hospital',
     value: 'Hospital'
   },
-  // {
-  //   label: 'Occupational healthcare',
-  //   value: 'OccupationalHealthcare'
-  // }
+  {
+    label: 'Occupational healthcare',
+    value: 'OccupationalHealthcare'
+  }
 ];
 
 const AddEntryModal: React.FC<Props> = ({ onSubmit, onCancel, diagnoses }) => {
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formType, setFormType] = React.useState<string>();
 
   const initialValues = {
@@ -68,6 +67,15 @@ const AddEntryModal: React.FC<Props> = ({ onSubmit, onCancel, diagnoses }) => {
     }
   };
 
+  const occupationalValues = {
+    type: 'OccupationalHealthcare',
+    employerName: '',
+    sickLeave: {
+      startDate: '',
+      endDate: ''
+    }
+  };
+
   const selectedInitialValues = (): EntryFormValues => {
     switch(formType) {
       case 'HealthCheck':
@@ -80,6 +88,11 @@ const AddEntryModal: React.FC<Props> = ({ onSubmit, onCancel, diagnoses }) => {
           ...initialValues,
           ...hospitalValues,
         } as EntryFormHospitalValues;
+      case 'OccupationalHealthCare':
+        return {
+          ...initialValues,
+          ...occupationalValues
+        } as EntryFormOccupationalValues;
       default:
         return initialValues as EntryFormBaseValues;
     }
@@ -94,7 +107,7 @@ const AddEntryModal: React.FC<Props> = ({ onSubmit, onCancel, diagnoses }) => {
       case 'OccupationalHealthcare':
         return (<OccupationalFields />);
       default:
-        return '';
+        return (<div>Select entry type</div>);
     }
   };
 

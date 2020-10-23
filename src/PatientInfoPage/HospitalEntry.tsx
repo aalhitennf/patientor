@@ -1,5 +1,5 @@
-import React from "react";
-import { HospitalEntry } from "../types";
+import React from 'react';
+import { HospitalEntry } from '../types';
 import { Segment, Icon, Divider } from 'semantic-ui-react';
 
 import DiagnosisList from './DiagnosisList';

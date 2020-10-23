@@ -1,7 +1,7 @@
-import React from "react";
-import { ErrorMessage, Field, FieldProps, FormikProps } from "formik";
-import { Dropdown, DropdownProps, Form } from "semantic-ui-react";
-import { Diagnosis } from "../types";
+import React from 'react';
+import { ErrorMessage, Field, FieldProps, FormikProps } from 'formik';
+import { Dropdown, DropdownProps, Form } from 'semantic-ui-react';
+import { Diagnosis } from '../types';
 
 // structure of a single option
 export type GenderOption = {
@@ -24,9 +24,9 @@ export const SelectField: React.FC<SelectFieldProps> = ({
   <Form.Field>
     <label>{label}</label>
     <Field
-      as="select"
+      as='select'
       name={name}
-      className="ui dropdown"
+      className='ui dropdown'
     >
       {options.map(option => (
         <option key={option.value} value={option.value}>
@@ -49,7 +49,11 @@ export const TextField: React.FC<TextProps> = ({
 }) => (
   <Form.Field>
     <label>{label}</label>
-    <Field placeholder={placeholder} {...field} />
+    <Field
+      {...field}
+      placeholder={placeholder}
+      value={field.value || ''}
+    />
     <div style={{ color:'red' }}>
       <ErrorMessage name={field.name} />
     </div>
@@ -69,8 +73,13 @@ interface NumberProps extends FieldProps {
 export const NumberField: React.FC<NumberProps> = ({ field, label, min, max }) => (
   <Form.Field>
     <label>{label}</label>
-    <Field {...field} type='number' min={min} max={max} />
-
+    <Field
+      {...field}
+      type='number'
+      min={min}
+      max={max}
+      value={field.value || 0}
+    />
     <div style={{ color:'red' }}>
       <ErrorMessage name={field.name} />
     </div>
@@ -83,10 +92,10 @@ export const DiagnosisSelection = ({
   setFieldTouched
 }: {
   diagnoses: Diagnosis[];
-  setFieldValue: FormikProps<{ diagnosisCodes: string[] }>["setFieldValue"];
-  setFieldTouched: FormikProps<{ diagnosisCodes: string[] }>["setFieldTouched"];
+  setFieldValue: FormikProps<{ diagnosisCodes: string[] }>['setFieldValue'];
+  setFieldTouched: FormikProps<{ diagnosisCodes: string[] }>['setFieldTouched'];
 }) => {
-  const field = "diagnosisCodes";
+  const field = 'diagnosisCodes';
   const onChange = (
     _event: React.SyntheticEvent<HTMLElement, Event>,
     data: DropdownProps

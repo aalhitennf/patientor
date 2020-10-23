@@ -1,55 +1,55 @@
-import { State } from "./state";
-import { Diagnose, Patient } from "../types";
+import { State } from './state';
+import { Diagnose, Patient } from '../types';
 
 export type Action =
   | {
-      type: "SET_PATIENT_LIST";
+      type: 'SET_PATIENT_LIST';
       payload: Patient[];
     }
   | {
-      type: "ADD_PATIENT";
+      type: 'ADD_PATIENT';
       payload: Patient;
     }
   | {
-      type: "UPDATE_PATIENT";
+      type: 'UPDATE_PATIENT';
       payload: Patient;
   }
   | {
-    type: "SET_DIAGNOSE_LIST";
+    type: 'SET_DIAGNOSE_LIST';
     payload: Diagnose[];
   };
 
 export const setPatientList = (patientsFromApi: Patient[]): Action => {
   return {
-    type: "SET_PATIENT_LIST",
+    type: 'SET_PATIENT_LIST',
     payload: patientsFromApi
   };
 };
 
 export const addPatient = (patient: Patient): Action => {
   return {
-    type: "ADD_PATIENT",
+    type: 'ADD_PATIENT',
     payload: patient
   };
 };
 
 export const updatePatient = (patient: Patient): Action => {
   return {
-    type: "UPDATE_PATIENT",
+    type: 'UPDATE_PATIENT',
     payload: patient
   };
 };
 
 export const setDiagnoseList = (diagnosesFromApi: Diagnose[]): Action => {
   return {
-    type: "SET_DIAGNOSE_LIST",
+    type: 'SET_DIAGNOSE_LIST',
     payload: diagnosesFromApi
   };
 };
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case "SET_PATIENT_LIST":
+    case 'SET_PATIENT_LIST':
       return {
         ...state,
         patients: {
@@ -60,7 +60,7 @@ export const reducer = (state: State, action: Action): State => {
           ...state.patients
         }
       };
-    case "ADD_PATIENT":
+    case 'ADD_PATIENT':
       return {
         ...state,
         patients: {
@@ -68,7 +68,7 @@ export const reducer = (state: State, action: Action): State => {
           [action.payload.id]: action.payload
         }
       };
-    case "UPDATE_PATIENT":
+    case 'UPDATE_PATIENT':
       return {
         ...state,
         patients: {
@@ -79,7 +79,7 @@ export const reducer = (state: State, action: Action): State => {
           }
         }
       };
-    case "SET_DIAGNOSE_LIST":
+    case 'SET_DIAGNOSE_LIST':
       return {
         ...state,
         diagnoses: {

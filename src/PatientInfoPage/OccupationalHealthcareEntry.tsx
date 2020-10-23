@@ -1,5 +1,5 @@
-import React from "react";
-import { OccupationalHealthcareEntry } from "../types";
+import React from 'react';
+import { OccupationalHealthcareEntry } from '../types';
 import { Segment, Icon } from 'semantic-ui-react';
 
 import DiagnosisList from './DiagnosisList';

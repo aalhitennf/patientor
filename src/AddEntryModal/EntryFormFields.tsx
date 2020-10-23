@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, FormikProps } from "formik";
+import { Field, FormikProps } from 'formik';
 import { Dropdown, DropdownProps, Form } from 'semantic-ui-react';
 
 import { NumberField, TextField } from '../AddPatientModal/FormField';
@@ -24,6 +24,7 @@ export const HealthCheckFields: React.FC = () => {
 export const HospitalFields: React.FC = () => {
   return (
     <div>
+      <label>Discharge</label>
       <Field
         label='Date'
         placeholder='1970-01-01'
@@ -42,11 +43,27 @@ export const HospitalFields: React.FC = () => {
 
 export const OccupationalFields: React.FC = () => {
   return (
-    <Field
-      label='Sick leave (not implemented yet)'
-      name='sickLeave'
-      component={TextField}
-    />
+    <div>
+      <Field
+        label='Employer name'
+        placeholder='not FBI'
+        name='employerName'
+        component={TextField}
+      />
+      <Field
+        label='Sick leave start date'
+        placeholder='1970-01-01'
+        name='sickLeave.startDate'
+        component={TextField}
+      />
+      <Field
+        label='Sick leavel end date'
+        placeholder='1970-01-01'
+        name='sickLeave.endDate'
+        component={TextField}
+      />
+    </div>
+
   );
 };
 
@@ -58,7 +75,7 @@ export const EntryTypeSelection = ({
 }: {
   options: EntryOption[];
   placeholder: string;
-  setFieldValue: FormikProps<{ type: string }>["setFieldValue"];
+  setFieldValue: FormikProps<{ type: string }>['setFieldValue'];
   handleChange: (value: string) => void;
 }) => {
   const field = 'type';

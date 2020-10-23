@@ -1,12 +1,12 @@
-import React from "react";
-import axios from "axios";
-import { Entry, Diagnose } from "../types";
-import { apiBaseUrl } from "../constants";
-import { useStateValue, setDiagnoseList } from "../state";
+import React from 'react';
+import axios from 'axios';
+import { Entry, Diagnose } from '../types';
+import { apiBaseUrl } from '../constants';
+import { useStateValue, setDiagnoseList } from '../state';
 
-import HospitalEntry from "./HospitalEntry";
-import HealthCheckEntry from "./HealthCheckEntry";
-import OccupationalHealthcare from "./OccupationalHealthcareEntry";
+import HospitalEntry from './HospitalEntry';
+import HealthCheckEntry from './HealthCheckEntry';
+import OccupationalHealthcare from './OccupationalHealthcareEntry';
 
 const EntryList: React.FC<{ entries: Entry[] }> = ({ entries }) => {
 
@@ -42,11 +42,11 @@ const EntryList: React.FC<{ entries: Entry[] }> = ({ entries }) => {
 
   const EntryDetails: React.FC<{ entry: Entry }> = ({ entry }) => {
     switch (entry.type) {
-      case "Hospital":
+      case 'Hospital':
         return <HospitalEntry entry={entry} />;
-      case "HealthCheck":
+      case 'HealthCheck':
         return <HealthCheckEntry entry={entry} />;
-      case "OccupationalHealthcare":
+      case 'OccupationalHealthcare':
         return <OccupationalHealthcare entry={entry} />;
       default:
         return (<div>unknown entry</div>);

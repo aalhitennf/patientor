@@ -1,14 +1,14 @@
-import React from "react";
-import axios from "axios";
-import { Container, Table, Button } from "semantic-ui-react";
+import React from 'react';
+import axios from 'axios';
+import { Container, Table, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-import { PatientFormValues } from "../AddPatientModal/AddPatientForm";
-import AddPatientModal from "../AddPatientModal";
-import { Patient } from "../types";
-import { apiBaseUrl } from "../constants";
-import HealthRatingBar from "../components/HealthRatingBar";
-import { addPatient, useStateValue } from "../state";
+import { PatientFormValues } from '../AddPatientModal/AddPatientForm';
+import AddPatientModal from '../AddPatientModal';
+import { Patient, Entry, HealthCheckEntry } from '../types';
+import { apiBaseUrl } from '../constants';
+import HealthRatingBar from '../components/HealthRatingBar';
+import { addPatient, useStateValue } from '../state';
 
 const PatientListPage: React.FC = () => {
   const [{ patients }, dispatch] = useStateValue();
@@ -38,8 +38,8 @@ const PatientListPage: React.FC = () => {
   };
 
   return (
-    <div className="App">
-      <Container textAlign="center">
+    <div className='App'>
+      <Container textAlign='center'>
         <h3>Patient list</h3>
       </Container>
       <Table celled>
